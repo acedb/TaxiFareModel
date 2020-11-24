@@ -10,3 +10,6 @@ groupama/data/base_pno.*
 .DS_Store
 .idea/
 raw_data/
+__pycache__/
+*.egg-info/
+.ipynb_checkpoints

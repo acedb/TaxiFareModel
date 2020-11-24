@@ -10,6 +10,7 @@ from TaxiFareModel.encoders import TimeFeaturesEncoder, DistanceTransformer
 from TaxiFareModel.utils import compute_rmse
 
 class Trainer():
+
     def __init__(self, X, y):
         """
             X: pandas DataFrame
