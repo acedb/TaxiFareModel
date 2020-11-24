@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
 
 from TaxiFareModel.data import get_data, clean_data
 from TaxiFareModel.encoders import TimeFeaturesEncoder, DistanceTransformer
@@ -36,10 +37,11 @@ class Trainer():
         model_pipeline = Pipeline(steps = [('preprocessing', preprocessor),
                                             ('regressor', LinearRegression())])
 
-        self.pipeline = model_pipeline
+        return model_pipeline
 
     def run(self):
         """set and train the pipeline"""
+        self.pipeline = self.set_pipeline()
         self.pipeline.fit(self.X, self.y)
 
     def evaluate(self, X_test, y_test):
@@ -59,13 +61,16 @@ if __name__ == "__main__":
     # hold out
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
+    trainer = Trainer(X_train, y_train)
+    trainer.run()
+    trainer.evaluate(X_test, y_test)
     # build pipeline
-    pipeline = Trainer().set_pipeline()
+    #train_pipe = Trainer(X_train, y_train).set_pipeline()
 
     # train the pipeline
-    model = pipeline.run(X_train, y_train, pipeline)
+    #model = pipeline.run(X_train, y_train, train_pipe)
 
     # evaluate the pipeline
-    result = pipeline.evaluate(X_test, y_test, model)
+    #result = pipeline.evaluate(X_test, y_test, model)
 
-    print(result)
+    print(trainer.evaluate(X_test, y_test))
